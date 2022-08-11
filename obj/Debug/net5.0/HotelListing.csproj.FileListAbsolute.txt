@@ -138,3 +138,5 @@ C:\Users\hp\source\repos\HotelListing\obj\Debug\net5.0\refint\HotelListing.dll
 C:\Users\hp\source\repos\HotelListing\obj\Debug\net5.0\HotelListing.pdb
 C:\Users\hp\source\repos\HotelListing\obj\Debug\net5.0\HotelListing.genruntimeconfig.cache
 C:\Users\hp\source\repos\HotelListing\obj\Debug\net5.0\ref\HotelListing.dll
+C:\Users\hp\source\repos\HotelListing\bin\Debug\net5.0\AutoMapper.dll
+C:\Users\hp\source\repos\HotelListing\bin\Debug\net5.0\AutoMapper.Extensions.Microsoft.DependencyInjection.dll

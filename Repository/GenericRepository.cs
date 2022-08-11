@@ -1,5 +1,5 @@
 ﻿using HotelListing.IRepository;
-using HotelListing.Models;
+using HotelListing.Data;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
