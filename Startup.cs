@@ -29,6 +29,8 @@ namespace HotelListing
             {
                 options.UseSqlServer(Configuration.GetConnectionString("Path"));
             });
+            services.AddAuthentication();
+            services.ConfigureIdentity();
             services.AddCors(options =>
             {
                 options.AddPolicy("AllowAll", buildOptions =>
