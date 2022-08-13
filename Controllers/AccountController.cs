@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using HotelListing.Data;
 using HotelListing.Models;
+using HotelListing.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -15,14 +16,17 @@ namespace HotelListing.Controllers
         //private readonly SignInManager<User> _signInManager;
         private readonly IMapper _mapper;
         private readonly ILogger<AccountController> _logger;
+        private readonly IAuthManager _authmanager;
+
         public AccountController(UserManager<User> usermanager,
             IMapper mapper, 
-            ILogger<AccountController> logger)
+            ILogger<AccountController> logger,
+            IAuthManager authmanager)
         {
-            _userManager = usermanager;
-            //_signInManager = signInManager;
+            _userManager = usermanager;            
             _mapper = mapper;
             _logger = logger;
+            _authmanager = authmanager;
         }
         [HttpPost]
         [Route("Register")]
@@ -57,7 +61,7 @@ namespace HotelListing.Controllers
             }
 
         }
-        /*[HttpPost]
+        [HttpPost]
         [Route("Login")]
         public async Task<IActionResult> Login([FromBody] LoginUserDTO userDTO)
         {
@@ -68,12 +72,11 @@ namespace HotelListing.Controllers
             }
             try
             {
-                var user = await _signInManager.PasswordSignInAsync(userDTO.Email, userDTO.Password, false, false);
-                if (!user.Succeeded)
+                if(!await _authmanager.ValidateUser(userDTO))
                 {
-                    return Unauthorized(userDTO);
+                    return Unauthorized();
                 }
-                return Accepted();
+                return Accepted(new {Token = await _authmanager.CreateToken()});
 
             }
             catch (Exception ex)
@@ -81,6 +84,6 @@ namespace HotelListing.Controllers
                 _logger.LogError(ex, $"Something went wrong in the {nameof(Login)}");
                 return Problem($"Something went wrong in the {nameof(Login)}", statusCode: 500);
             }
-        }*/
+        }
     }
 }
