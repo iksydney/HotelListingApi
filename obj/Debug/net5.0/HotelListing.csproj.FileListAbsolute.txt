@@ -149,3 +149,6 @@ C:\Users\hp\source\repos\HotelListing\obj\Debug\net5.0\refint\HotelListing.dll
 C:\Users\hp\source\repos\HotelListing\obj\Debug\net5.0\HotelListing.pdb
 C:\Users\hp\source\repos\HotelListing\obj\Debug\net5.0\HotelListing.genruntimeconfig.cache
 C:\Users\hp\source\repos\HotelListing\obj\Debug\net5.0\ref\HotelListing.dll
+C:\Users\hp\source\repos\HotelListing\bin\Debug\net5.0\X.PagedList.dll
+C:\Users\hp\source\repos\HotelListing\bin\Debug\net5.0\X.PagedList.Mvc.Core.dll
+C:\Users\hp\source\repos\HotelListing\bin\Debug\net5.0\X.PagedList.Web.Common.dll
