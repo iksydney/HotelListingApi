@@ -1,3 +1,4 @@
+using AspNetCoreRateLimit;
 using AutoMapper;
 using HotelListing.Configurations;
 using HotelListing.Data;
@@ -6,6 +7,7 @@ using HotelListing.Repository;
 using HotelListing.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -32,6 +34,16 @@ namespace HotelListing
             {
                 options.UseSqlServer(Configuration.GetConnectionString("Path"));
             });
+
+            //Caching
+            services.ConfigureHttpCacheHeader();
+            services.AddMemoryCache();
+            services.AddResponseCaching();
+
+            //For throttling
+            services.ConfigureRateLimiting();
+            services.AddHttpContextAccessor();
+
             services.AddAuthentication();
             services.ConfigureIdentity();
             services.ConfigureJWT(Configuration);
@@ -48,11 +60,19 @@ namespace HotelListing
             services.AddScoped<IAuthManager, AuthManager>();
             /**/
             AddSwaggerDoc(services);
-            services.AddControllers().AddNewtonsoftJson(op =>
+            services.AddControllers(config =>
+            {
+                config.CacheProfiles.Add("120SecondsDuration", new CacheProfile
+                {
+                    Duration = 120
+                });
+            }).AddNewtonsoftJson(op =>
             {
                 op.SerializerSettings.ReferenceLoopHandling =
                 Newtonsoft.Json.ReferenceLoopHandling.Ignore;
             });
+
+            services.ConfigureVersioning();
         }
 
         private void AddSwaggerDoc(IServiceCollection services)
@@ -103,6 +123,12 @@ namespace HotelListing
 
             app.UseHttpsRedirection();
             app.UseCors("AllowAll");
+
+            app.UseResponseCaching();
+            app.UseHttpCacheHeaders();
+
+            //for theottling
+            app.UseIpRateLimiting();
 
             app.UseRouting();
 
